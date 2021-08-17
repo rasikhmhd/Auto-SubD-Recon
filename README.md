@@ -1,7 +1,7 @@
 # Auto-SubD-Recon
 
 A simple shell script designed to collect all active sub-domains of a Domain.
-Here it use [Assetfinder](https://github.com/tomnomnom/assetfinder) as sub-domain listner.
+Here it use [Assetfinder](https://github.com/tomnomnom/assetfinder) as sub-domain listener.
 For checking current status of domains weather it alive or not it use [Httprobe](https://github.com/tomnomnom/httprobe)
 #### Make sure you installed both in your system!!!
    ###### (Both need go language to be installed in your system)
