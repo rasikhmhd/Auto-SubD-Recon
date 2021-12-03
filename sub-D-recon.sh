@@ -1,9 +1,10 @@
 #!/bin/bash 
 read -p "~Enter the domain: " domain
 echo -e "~\033[1mScaning for sub-domains...\033[0m"
+mkdir $domain
 search()
 {
-    assetfinder $domain > tmp_sub.txt 
+    assetfinder --subs-only $domain > tmp_sub.txt 
 }
 total()
 {
@@ -16,12 +17,7 @@ live()
     echo -e "~\033[1mSearching for active sub domains....\033[0m"
     echo -e "~\033[1mSending HTTP/HTTPS requests..\033[0m"
     cat tmp_sub.txt | httprobe > tmp_alive.txt 
-}
-alive()
-{
-    echo -e "~\033[1Number of sub-domains which are alive is:\033[0m"
-    cat tmp_alive.txt | wc -l 
-
+    rm tmp_sub.txt
 }
 remove()
 {
@@ -34,31 +30,18 @@ remove()
     echo -e "~\033[1mThe filtered Active sub-domains are..\033[0m"
     sort tmp_no_http.txt | uniq | tee tmp_active.txt
     echo  -e "~\033[1mNumber  of Active subdomains are\033[0m"
-     cat tmp_active.txt | wc -l 
-    exit
+    cat tmp_active.txt | wc -l 
+    cp tmp_active.txt $domain/subdomains.txt
      
 }
-  
-trash1()
+trash()
 {
-    if [ -f tmp_no_http.txt ]; then
-    rm tmp_no_http.txt
-    fi
-    if [ -f tmp_active.txt ]; then
-    rm tmp_active.txt
-    fi
+  rm tmp_active.txt
+  rm tmp_alive.txt
+  rm tmp_no_http.txt
 }
-
-trash2()
-{
-    rm tmp_sub.txt
-    rm tmp_alive.txt
-
-}
-trash1
 search
 total
 live
-alive
 remove
-trash2
+trash
